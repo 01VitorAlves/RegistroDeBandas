@@ -61,10 +61,11 @@ const Grid = ({users}) => {
             <Tbody>
                 {users.map((item, i) =>(
                     <Tr key={i}>
-                        <Td width= "30%"> {item.nome}</Td> 
-                        <Td width= "30%"> {item.album}</Td> 
-                        <Td width= "30%"> {item.nota}</Td>
-                        <Td width= "20%" onlyWeb> {item.data}</Td>  
+                        <Td width= "25%"> {item.nome}</Td> 
+                        <Td width= "25%"> {item.album}</Td>  
+                        <Td width= "25%"> {item.nota}</Td>
+                        <Td width= "25%" onlyWeb> {item.data_conheceu}</Td>
+                         
 
                         <Td alignCenter widht= "5%">
                             <FaEdit/>
