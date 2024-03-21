@@ -40,13 +40,35 @@ export const Td = styled.td`
     text-align: ${(props) => (props.alignCenter ? "center" : "start")};
     width: ${(props) => (props.width ? props.width : "auto")};
 
-    @media (max-width 500px) {
+    @media (max-width: 500px) {
         ${(props) => props.onlyWeb && "display: none"}
     }
 `;
 
 
-const Grid = ({users}) => {
+const Grid = ({users, setUsers, setOnEdit}) => {
+    
+    const handleEdit = (item) => {
+        setOnEdit(item);
+    };
+    
+
+    const handleDelete = async (idBandas) => {
+        await axios
+        .delete("http://localhost:8800/" + idBandas)
+        .then(({ data }) => {
+            const newArray = users.filter((user) => user.idBandas !== idBandas);
+
+            setUsers(newArray);
+            toast.success(data);
+        })
+        .catch(({ data }) => toast.error(data));
+
+        setOnEdit(null);
+    };
+
+
+
     return (
         <Table>
             <Thead>
@@ -68,10 +90,10 @@ const Grid = ({users}) => {
                          
 
                         <Td alignCenter widht= "5%">
-                            <FaEdit/>
+                            <FaEdit onClick={() => handleEdit(item)}/>
                         </Td> 
                         <Td alignCenter widht= "5%">
-                            <FaTrash />
+                            <FaTrash onClick={() => handleDelete(item.idBandas)} />
                         </Td> 
                     </Tr>
                 ))}

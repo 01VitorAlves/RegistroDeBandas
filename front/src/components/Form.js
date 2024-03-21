@@ -1,5 +1,7 @@
-import React, {useRef} from "react";
+import axios from "axios";
+import React, {useEffect, useRef} from "react";
 import styled from "styled-components";
+import {toast} from "react-toastify";
 
 const FormContainer = styled.form`
     display: flex;
@@ -37,11 +39,70 @@ const Button = styled.button`
     height: 42px;
 `;
 
-const Form = ({onEdit}) => {
+const Form = ({getBandas, onEdit, setOnEdit}) => {
     const ref = useRef();
 
+    useEffect(() => {
+        if (onEdit) {
+            const user = ref.current;
+
+            user.nome.value = onEdit.nome;
+            user.album.value = onEdit.album;
+            user.nota.value = onEdit.nota;
+            user.data_conheceu.value = onEdit.data_conheceu;
+        }
+    }, [onEdit]);
+
+
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const user = ref.current;
+
+        if(
+            !user.nome.value ||
+            !user.album.value ||
+            !user.nota.value ||
+            !user.data_conheceu.value
+        ) {
+            return toast.warn("Preencha todos os campos!");
+        }
+
+        if (onEdit) {
+            await axios
+                .put("http://localhost:8800/" + onEdit.idBandas, {
+                    nome: user.nome.value,
+                    album: user.album.value,
+                    nota: user.nota.value,
+                    data_conheceu: user.data_conheceu.value,
+                })
+                .then(({data}) => toast.success(data))
+                .catch(({data}) => toast.error(data));
+        }else {
+            await axios
+                .post("http://localhost:8800", {
+                    nome: user.nome.value,
+                    album: user.album.value,
+                    nota: user.nota.value,
+                    data_conheceu: user.data_conheceu.value,
+                })
+                .then(({data}) => toast.success(data))
+                .catch(({data}) => toast.error(data));
+        }
+
+        user.nome.value = "";
+        user.album.value = "";
+        user.nota.value = "";
+        user.data_conheceu.value = "";
+
+        setOnEdit(null);
+        getBandas();
+        
+    };
+
     return (
-        <FormContainer ref = {ref}>
+        <FormContainer ref = {ref} onSubmit={handleSubmit} >
             <InputArea>
                 <Label>Nome da Banda</Label>
                 <Input name = "nome" />
