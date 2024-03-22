@@ -41,7 +41,7 @@ function App() {
     <Container>
     <Title> BANDAS </Title>
     <Form onEdit={onEdit} setOnEdit={setOnEdit} getBandas={getBandas}/>
-    <Grid setOnEdit={setOnEdit} users={users} setUsers={setUsers} />
+    {/* <Grid setOnEdit={setOnEdit} users={users} setUsers={setUsers} /> */}
     </Container>
     <ToastContainer autoClose={3000} position={"bottom-left"} />
     <GlobalStyle />

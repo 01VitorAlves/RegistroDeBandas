@@ -89,12 +89,12 @@ const Grid = ({users, setUsers, setOnEdit}) => {
                         <Td width= "25%" onlyWeb> {item.data_conheceu}</Td>
                          
 
-                        <Td alignCenter widht= "5%">
+                        {/* <Td alignCenter widht= "5%">
                             <FaEdit onClick={() => handleEdit(item)}/>
                         </Td> 
                         <Td alignCenter widht= "5%">
                             <FaTrash onClick={() => handleDelete(item.idBandas)} />
-                        </Td> 
+                        </Td>  */}
                     </Tr>
                 ))}
             </Tbody>
